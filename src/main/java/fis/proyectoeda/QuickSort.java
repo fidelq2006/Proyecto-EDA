@@ -3,8 +3,7 @@ package fis.proyectoeda;
 
 
 public class QuickSort {
-  
-
+  //arreglar recursivamente
 static void quickSort(SteamDatos[] array, int izquierda, int derecha) {
     if (izquierda >= derecha) return;
     int pivoteIndex = division(array, izquierda, derecha);

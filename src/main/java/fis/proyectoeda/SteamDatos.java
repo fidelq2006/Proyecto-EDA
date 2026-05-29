@@ -115,6 +115,11 @@ public class SteamDatos {
     public int getRank() {
         return rank;
     }
+    public double getRatioAprobacion() {
+    int total = positiveReviews + negativeReviews;
+    if (total == 0) return 0.0; // evita división entre cero
+    return (positiveReviews * 100.0) / total;
+}
     
 }
 

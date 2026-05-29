@@ -2,13 +2,17 @@
 package fis.proyectoeda;
 
 public class MergeSort {
+    //se divide el arreglo recursivamente
     static void mergesort(int izquierda,int derecha, SteamDatos[] array){
         if(izquierda>=derecha){
             return;
     }
         int mid=(derecha+izquierda)/2;
+        //la mitad de la izquierda
         mergesort(izquierda,mid,array);
+        //la mitad de la derecha 
         mergesort(mid+1,derecha,array);
+        //se fusionan en una sola
         merge(array,izquierda,mid,derecha);
     }
     static void merge(SteamDatos[]array,int izquierda,int mid,int derecha){
