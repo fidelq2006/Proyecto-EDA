@@ -9,6 +9,7 @@ public class SteamLector {
 
     public List<SteamDatos> cargar(String ruta) throws Exception {
         List<SteamDatos> lista = new ArrayList<>();
+        
         CSVReader reader = new CSVReader(new FileReader(ruta));
         
         String[] linea;

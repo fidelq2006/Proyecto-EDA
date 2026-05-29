@@ -13,5 +13,9 @@ public class ProyectoEDA {
     public static void main(String[] args) throws Exception {
     SteamLector loader = new SteamLector();
     loader.cargar("Data/SteamGames.csv");
+   
+
+    HashControlador controladorHash = new HashControlador();
+    controladorHash.procesarDatos(listaCompleta);
 }
 }
