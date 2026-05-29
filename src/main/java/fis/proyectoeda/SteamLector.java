@@ -15,13 +15,21 @@ public class SteamLector {
         String[] linea;
         reader.readNext(); // saltar encabezado
         
-        while ((linea = reader.readNext()) != null) {
-                for (int i = 0; i < linea.length; i++) {
-        System.out.println(i + " -> " + linea[i]);
-    }
-        }
+       while ((linea = reader.readNext()) != null) {
+try{
+    int appId=Integer.parseInt(linea[0]);
+    String nombre = linea[1];
+    int positiveReviews =Integer.parseInt(linea[12]);
+    int negativeReviews=Integer.parseInt(linea[13]);
+
+    SteamDatos juego = new SteamDatos(0, nombre,"","","","","","","","","",0,positiveReviews,negativeReviews,"","","",0);
+
+    lista.add(juego);
+}catch(NumberFormatException e){
+}
+  }
         
-        reader.close();
-        return lista;
+    reader.close();
+    return lista;
     }
 }

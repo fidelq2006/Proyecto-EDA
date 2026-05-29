@@ -1,21 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 
 package fis.proyectoeda;
 
-/**
- *
- * @author aitan
- */
+import java.util.List;
+
+
 public class ProyectoEDA {
 
     public static void main(String[] args) throws Exception {
     SteamLector loader = new SteamLector();
-    loader.cargar("Data/SteamGames.csv");
-   
-
+    List<SteamDatos>lista=loader.cargar("Data/SteamGames.csv");
     HashControlador controladorHash = new HashControlador();
-    controladorHash.procesarDatos(listaCompleta);
+    controladorHash.procesarDatos(lista);
+
+    
+    SteamDatos[] array=lista.toArray(new SteamDatos[0]);
+    MergeSort.mergesort(0,array.length-1,array);
+    System.out.println("Top 10 juegos con mejores resenas");
+    for (int i=0;i<10;i++){
+        System.out.println((i+1)+"."+array[i].getName()+ "-" + array[i].getPositiveReviews() +" resenas positivas");
+    }
+    SteamDatos[] array2 = lista.toArray(new SteamDatos[0]);
+    QuickSort.quickSort(array2, 0, array2.length - 1);
+    System.out.println("Top 10 peores juegos:");
+    for (int i = 0; i < 10; i++) {
+        System.out.println((i+1) + ". " + array2[i].getName() + " - " + array2[i].getNegativeReviews() + " resenas negativas");
+    }
 }
+
 }
