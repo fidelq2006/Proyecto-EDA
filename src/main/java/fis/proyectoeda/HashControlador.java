@@ -14,20 +14,22 @@ public class HashControlador {
     }
 
     public void procesarDatos(List<SteamDatos> listaJuegos) {
-        int insertados = 0;
+        int intentos = 0;
         
         for (SteamDatos juego : listaJuegos) {
-            if (insertados >= 5000) {
-                break; // Frenamos al llegar a los 5,000 datos exigidos
+            if (intentos >= 5000) {
+                break; // Solo tomamos los primeros 5,000 del CSV para el experimento
             }
             
-            // Insertamos usando el appId (columna numérica)
             tablaHash.insertar(juego.getAppId(), juego);
-            insertados++;
+            intentos++;
         }
         
-        System.out.println("---DOBLE HASHING ---");
-        System.out.println("Estructura cargada con éxito.");
-        System.out.println("Cantidad de datos numéricos (appId) almacenados: " + tablaHash.getCantidadElementos());
+        System.out.println("---(DOBLE HASHING) ---");
+        System.out.println("Proceso de insercion finalizado.");
+    }
+
+    public void mostrarEstructura() {
+        tablaHash.mostrarTabla();
     }
 }

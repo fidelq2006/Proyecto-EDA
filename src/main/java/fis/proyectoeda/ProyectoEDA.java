@@ -1,9 +1,8 @@
-
 package fis.proyectoeda;
 
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class ProyectoEDA {
 
@@ -12,7 +11,10 @@ public class ProyectoEDA {
     List<SteamDatos>lista=loader.cargar("Data/SteamGames.csv");
     HashControlador controladorHash = new HashControlador();
     controladorHash.procesarDatos(lista);
+    
+    //Imprime la tabla Hash
 
+    controladorHash.mostrarEstructura();
     
     SteamDatos[] array=lista.toArray(new SteamDatos[0]);
     MergeSort.mergesort(0,array.length-1,array);
@@ -29,17 +31,13 @@ public class ProyectoEDA {
 SteamDatos[] array3 = lista.stream()
     .filter(j -> (j.getPositiveReviews() + j.getNegativeReviews()) >= 1000)
     .toArray(SteamDatos[]::new);
-Arrays.sort(array3, (a, b) -> Double.compare(b.getRatioAprobacion(), a.getRatioAprobacion()));
+MergeSort.mergesortRatio(0, array3.length - 1, array3);
 
 System.out.println("Top 10 juegos con mejor ratio de aprobacion:");
 for (int i = 0; i < 10; i++) {
-    System.out.printf("%d. %s - %.2f%%%n",
-        i + 1,
-        array3[i].getName(),
-        array3[i].getRatioAprobacion()
-    );
-}
+    System.out.printf("%d. %s - %.2f%%%n",i + 1,array3[i].getName(),array3[i].getRatioAprobacion());
     }
     
 
+}
 }

@@ -22,7 +22,7 @@ try{
     int positiveReviews =Integer.parseInt(linea[12]);
     int negativeReviews=Integer.parseInt(linea[13]);
 
-    SteamDatos juego = new SteamDatos(0, nombre,"","","","","","","","","",0,positiveReviews,negativeReviews,"","","",0);
+    SteamDatos juego = new SteamDatos(appId, nombre,"","","","","","","","","",0,positiveReviews,negativeReviews,"","","",0);
 
     lista.add(juego);
 }catch(NumberFormatException e){

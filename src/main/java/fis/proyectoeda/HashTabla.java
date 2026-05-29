@@ -5,9 +5,9 @@
 package fis.proyectoeda;
 
 public class HashTabla {
-    private HashNode[] tabla;
-    private final int M = 7001; // Tamaño de la tabla 
-    private final int R = 6997; // Primo menor para el segundo Hash
+   private HashNode[] tabla;
+    private final int M = 5000; // El tamaño de la tabla es EXACTAMENTE 5,000
+    private final int R = 4999; // Número primo menor a M para el segundo hash
     private int cantidadElementos;
 
     public HashTabla() {
@@ -15,60 +15,65 @@ public class HashTabla {
         this.cantidadElementos = 0;
     }
 
-    // Primera función Hash: determina la posición base
+    // Primera función Hash
     private int hash1(int key) {
         return Math.abs(key) % M;
     }
 
-    // Segunda función Hash: determina el tamaño del salto (nunca da 0)
+    // Segunda función Hash (el salto)
     private int hash2(int key) {
         return R - (Math.abs(key) % R);
     }
 
-    // Método para insertar usando DOBLE HASHING
+    // Método para insertar con límite de intentos para evitar bucles infinitos
     public void insertar(int appId, SteamDatos juego) {
-        if (cantidadElementos >= 5000) {
-            // Ya alcanzamos el límite de 5,000 datos solicitados
-            return;
-        }
-
         int posicion = hash1(appId);
         int salto = hash2(appId);
         int i = 0;
 
-        // Bucle de resolución de colisiones por Doble Hashing
-        while (tabla[posicion] != null) {
-            // Si el appId ya existe, no lo duplicamos
+        // Buscamos casilla libre usando Doble Hashing
+        // Ponemos un límite de intentos (M) para que si la tabla se satura o hay bucle, no se cuelgue
+        while (tabla[posicion] != null && i < M) {
+            // Si el juego ya está en esa posición, no lo duplicamos
             if (tabla[posicion].getAppId() == appId) {
                 return;
             }
-            // Fórmula del Doble Hashing: (Posición Inicial + i * Salto) % M
             posicion = (hash1(appId) + i * salto) % M;
             i++;
         }
 
-        // Encontramos una casilla libre
-        tabla[posicion] = new HashNode(appId, juego);
-        cantidadElementos++;
+        // Si encontramos una casilla vacía antes de agotar los intentos, se guarda
+        if (tabla[posicion] == null) {
+            tabla[posicion] = new HashNode(appId, juego);
+            cantidadElementos++;
+        }
+        // Si salió del bucle y estaba ocupado (i == M), el juego "ni modo", se quedó fuera.
     }
 
-    // Método para buscar un juego por su ID
-    public SteamDatos buscar(int appId) {
-        int posicion = hash1(appId);
-        int salto = hash2(appId);
-        int i = 0;
-
-        while (tabla[posicion] != null) {
-            if (tabla[posicion].getAppId() == appId) {
-                return tabla[posicion].getJuego();
+    // Método para mostrar TODA la tabla (Espacios ocupados y VACÍOS)
+    public void mostrarTabla() {
+        System.out.println("\n=== INSPECCION DE LA TABLA HASH (TAMAÑO 5000) ===");
+        int vacios = 0;
+        int ocupados = 0;
+        // Recorremos las 5,000 posiciones exactas de la tabla
+        for (int i = 0; i < M; i++) {
+            if (tabla[i] != null) {
+                System.out.println("Posicion [" + i + "] -> OCUPADO | ID: " + tabla[i].getAppId() + " | Juego: " + tabla[i].getJuego().getName());
+                ocupados++;
+            } else {
+                vacios++;
             }
-            posicion = (hash1(appId) + i * salto) % M;
-            i++;
         }
-        return null; // No encontrado
+
+        System.out.println("=================================================");
+        System.out.println("RESUMEN DE LA TABLA:");
+        System.out.println("Espacios Totales (M): " + M);
+        System.out.println("Juegos que lograron entrar: " + ocupados);
+        System.out.println("Espacios que se quedaron VACÍOS: " + vacios);
+        System.out.println("=================================================\n");
     }
 
-    public int getCantidadElementos() {
-        return cantidadElementos;
+    public int getCantidadElementos() { 
+        return cantidadElementos; 
     }
 }
